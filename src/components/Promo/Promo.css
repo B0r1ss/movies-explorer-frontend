@@ -1,0 +1,19 @@
+.promo {
+  display: flex;
+  min-height: 524px;
+  background-position: center;
+  background-image: url("../../images/background-main.svg");
+}
+
+.promo__title {
+  margin: auto auto;
+  max-width: 730px;
+  text-align: center;
+  color: #DDDEE3;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 40px;
+  line-height: 52px;
+  letter-spacing: -0.04em;
+}
