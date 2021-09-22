@@ -1,0 +1,108 @@
+.about-project {
+  padding: 110px 70px;
+}
+
+.section__title {
+  border-bottom: 1px solid #000000;
+  padding-bottom: 23px;
+}
+
+.about-project__title {
+  margin: 0 auto 0 0;
+  text-align: start;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  color: #000000;
+}
+
+.about-project__info {
+  margin: 70px auto 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.about-project__info_card {
+  height: 100%;
+  margin: 0 40px 0 0;
+}
+
+.about-project__info-title {
+  margin: 0 auto 0 0;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+  color: #000000;
+}
+
+.about-project__info-text {
+  margin: 26px 0 0;
+  text-align: start;
+  font-size: 14px;
+  line-height: 20px;
+  color: #000000;
+}
+
+.about-project__steps {
+  margin: 110px 0 0;
+  height: 177px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-project__progress-bar {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 36px;
+}
+
+.about-project__steps-text_type_one-week {
+  width: 20%;
+  box-sizing: border-box;
+  margin: 0;
+  background-color: #2BE080;
+  ;
+}
+
+.about-project__steps-text_type_four-week {
+  width: 80%;
+  box-sizing: border-box;
+  margin: 0;
+  background-color: #F2F2F2;
+}
+
+.about-project__steps-text {
+  padding: 9px 14px;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.about-project__comment {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.about-project__description-text-back {
+  width: 20%;
+  margin: 14px auto auto;
+}
+
+.about-project__description-text-front {
+  width: 80%;
+  margin: 0;
+  margin: 14px auto auto;
+}
+
+.about-project__description-text {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #A0A0A0;
+}

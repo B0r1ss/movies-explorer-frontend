@@ -1,4 +1,7 @@
 @import url("./vendor/normalize.css");
 @import url("./vendor/fonts.css");
 
+@import url("../src/components/App/App.css");
 @import url("../src/components/Promo/Promo.css");
+@import url("../src/components/NavTab/NavTab.css");
+@import url("../src/components/AboutProject/AboutProject.css");
