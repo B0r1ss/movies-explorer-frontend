@@ -2,11 +2,6 @@
   padding: 110px 70px;
 }
 
-.section__title {
-  border-bottom: 1px solid #000000;
-  padding-bottom: 23px;
-}
-
 .about-project__title {
   margin: 0 auto 0 0;
   text-align: start;
@@ -14,6 +9,14 @@
   line-height: 27px;
   letter-spacing: -0.04em;
   color: #000000;
+}
+
+.section__title {
+  font-style: normal;
+  font-weight: normal;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 23px;
+  margin: 0;
 }
 
 .about-project__info {
@@ -26,9 +29,12 @@
 .about-project__info_card {
   height: 100%;
   margin: 0 40px 0 0;
+  max-width: 550px;
 }
 
 .about-project__info-title {
+  font-style: normal;
+  font-weight: normal;
   margin: 0 auto 0 0;
   font-size: 20px;
   line-height: 24px;
@@ -46,7 +52,6 @@
 
 .about-project__steps {
   margin: 110px 0 0;
-  height: 177px;
   display: flex;
   flex-direction: column;
   align-items: center;
