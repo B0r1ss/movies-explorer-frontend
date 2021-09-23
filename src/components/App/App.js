@@ -1,6 +1,7 @@
 import React from 'react'; 
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import Main from '../Main/Main';
+import Footer from '../Footer/Footer';
 
 export default function App() {
   return (
@@ -10,6 +11,7 @@ export default function App() {
         <Main />
         </Route>
       </Switch>
+      <Footer />
     </div>
   );
 }

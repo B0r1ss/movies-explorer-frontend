@@ -6,7 +6,7 @@ import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 
 
-function Main(props) {
+export default function Main(props) {
     return (
     <>
       <Promo />
@@ -18,5 +18,3 @@ function Main(props) {
 
     )
 }
-
-export default Main;
