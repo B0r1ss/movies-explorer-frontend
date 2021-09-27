@@ -39,10 +39,15 @@
   border-radius: 3px;
   text-decoration: none;
   opacity: .6;
+  transition: opacity .3s;
   box-sizing: border-box;
   padding: 10px 20px;
   color: #FFFFFF;
   font-weight: 500;
   font-size: 12px;
   line-height: 16px;
+}
+
+.promo__button:hover {
+  opacity: .4;
 }
