@@ -47,3 +47,28 @@
   letter-spacing: -0.04em;
   color: #000000;
 }
+
+@media (max-width: 768px) {
+  .techs {
+    padding: 90px 50px;
+  }
+}
+
+@media (max-width: 767px) {
+  .techs {
+    padding: 18px 70px;
+  }
+
+  .techs__technologies {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+  }
+
+  .techs__technology {
+    width: 84px;
+    height: 57px;
+    text-align: center;
+  }
+}

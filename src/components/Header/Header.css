@@ -1,14 +1,15 @@
 .header {
-  background: inherit;
-  padding: 18px 70px;
   position: relative;
+  box-sizing: border-box;
+  background: #073042;
+  padding: 18px 70px;
   display: flex;
   flex-direction: row;
   align-content: space-between;
 }
 
 .header__logo {
-  margin-right: 44px;
+  margin: auto 38% auto 0;
 }
 
 @media(max-width: 992px) {
@@ -21,4 +22,8 @@
   .header {
       padding: 18px 14px;
   }
+}
+
+.header_type_white {
+  background-color: #FAFAFA;
 }

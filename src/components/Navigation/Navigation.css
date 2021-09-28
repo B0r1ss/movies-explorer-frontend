@@ -5,8 +5,8 @@
   align-items: center;
 }
 
-.header__navigation_position_right {
-  justify-content: flex-end
+.header__navigation_right {
+  justify-content: flex-end;
 }
 
 .header__link {
@@ -20,49 +20,52 @@
   margin-right: 10px;
 }
 
-.header__link_type_register {
-  color: #000000;
+.header__register {
+  color:  #FFFFFF;
+  opacity: 1;
   transition: opacity 0.3s;
   padding: 8px 20px;
 }
 
-.header__link_type_register:hover {
-  opacity: 0.7;
+.header__register:hover {
+  opacity: .6;
 }
 
-.header__link_type_login {
-  color: #FFFFFF;
-  background-color: #3456F3;
+.header__login {
+  color: #000000;
+  border-radius: 3px;
+  background-color: #2BE080;
   padding: 8px 20px;
-  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+  transition: opacity 0.3s;
 }
 
-.header__link_type_login:hover {
-  opacity: 0.8;
+.header__login:hover {
+  opacity: .6;
 }
 
-.header__link_type_movies {
+.header__movies {
   color: #000000;
   transition: opacity 0.3s;
   margin-right: 10px;
 }
 
-.header__link_type_movies:hover {
-  opacity: 0.7;
+.header__movies:hover {
+  opacity: .6;
 }
 
-.header__link_type_movies:active {
+.header__movies:active {
   font-weight: 500;
 }
 
-.header__link_type_account {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 16px;
-  display: flex;
+.header__account {
   align-items: center;
   text-align: center;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 12px;
+  display: flex;
   padding: 8px 20px;
   color: #000000;
   background: #F4F4F4;
@@ -71,7 +74,7 @@
 }
 
 .header__link_type_account:hover {
-  opacity: 0.8;
+  opacity: .6;
 }
 
 .header__burger-button {
@@ -162,7 +165,7 @@
   opacity: 0.8;
 }
 
-.no-display {
+.none-display {
   display: none;
 }
 
@@ -174,27 +177,23 @@
 
 
 @media(max-width: 768px) {
-  .header__link_type_account{
+  .header__account {
       display: none;
   }
 
-  .header__link_type_movies {
+  .header__movies {
       display: none;
   }
 
   .header__burger-button {
       display: block;
   }
-
-  .no-display {
-      display: none;
-  }
 }
 
 @media(max-width: 767px) {
   .header__burger-menu-container {
       width: 100%;
-      height:100%;
+      height: 100%;
   }
 
   .header__burger-menu-links {

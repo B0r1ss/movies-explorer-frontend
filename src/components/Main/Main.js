@@ -9,6 +9,7 @@ import Portfolio from "../Portfolio/Portfolio";
 export default function Main(props) {
     return (
     <>
+      <Header />
       <Promo />
       <AboutProject />
       <Techs />
