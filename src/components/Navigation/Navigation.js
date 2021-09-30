@@ -11,7 +11,7 @@ export default function Navigation() {
     function handleOpenMenuButtonClick() {
         setIsMenuShown(true);
     }
-    const props = {loggedIn: true};
+    const props = {loggedIn: false};
     return (
         <div className={props.loggedIn
         ? 'header__navigation'

@@ -15,13 +15,15 @@ export default function App() {
         <Route exect path={'/'}>
         <Main />
         </Route>
-      </Switch>
-      <Movies />
-      <Register />
-      <Login />
+        <Route path={'/signin'}>
+        <Login />
+      </Route>
+      <Route path={'/signup'}>
+        <Register />
+      </Route>
       <Footer />
-      <Profile />
-      <SearchForm/>
+      </Switch>
+
     </div>
   );
 }

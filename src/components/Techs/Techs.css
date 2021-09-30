@@ -27,6 +27,7 @@
 
 .techs__technologies {
   margin: 100px auto 0;
+  padding: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -52,23 +53,51 @@
   .techs {
     padding: 90px 50px;
   }
+
+  .techs__technology {
+    padding: 21px 15px;
+  }
+
+  .techs__text {
+    font-size: 12px;
+    line-height: 18px;
+  }
+  
+  .techs__technologies {
+    margin: 100px auto 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    list-style: none;
+  }
 }
 
 @media (max-width: 767px) {
   .techs {
-    padding: 18px 70px;
+    padding: 70px 18px;
+  }
+
+  .techs__title {
+    font-size: 30px;
+    line-height: 36px;
   }
 
   .techs__technologies {
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
-    list-style: none;
+  }
+
+  .techs__text {
+    font-size: 11px;
+    line-height: 16px;
   }
 
   .techs__technology {
+    margin: 10px 10px 0 0;
     width: 84px;
     height: 57px;
     text-align: center;
   }
 }
+
