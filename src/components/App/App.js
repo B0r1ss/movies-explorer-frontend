@@ -12,16 +12,15 @@ export default function App() {
   return (
     <div className="App">
       <Switch>
-        <Route exect path={'/'}>
-        <Main />
+        <Route exact path="/">
+          <Main />
         </Route>
-        <Route path={'/signin'}>
-        <Login />
-      </Route>
-      <Route path={'/signup'}>
-        <Register />
-      </Route>
-      <Footer />
+        <Route path='/signin'>
+          <Login />
+        </Route>
+        <Route path='/signup'>
+          <Register />
+        </Route>
       </Switch>
 
     </div>

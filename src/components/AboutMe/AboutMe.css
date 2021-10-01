@@ -187,12 +187,13 @@
   .about-me__card {
     margin: 60px 0 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   
   .about-me__info {
     display: flex;
     flex-direction: column;
+    margin: 0;
   }
   
   .about-me__name {
@@ -214,43 +215,20 @@
     text-align: start;
     font-size: 11px;
     line-height: 16px;
+    max-width: 100%;
+
   }
   
   .about-me__photo {
-    max-width: 292px;
+    max-width: 100%;
     height: 352px;
-    object-fit: cover;
   }
   
   .about-me__nav {
-    margin: 99px auto 0 0;
+    margin: 40px auto 0 0;
   }
-  
-  .about-me__lists {
-    margin: 0 auto 0 0;
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    list-style: none;
-  }
-  
+
   .about-me__list {
-    margin: auto 20px auto 0;
-  }
-  
-  .about-me__link {
-    opacity: 1;
-    text-decoration: none;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 17px;
-    color: #000000;
-    transition: opacity 0.3s;
-  }
-  
-  .about-me__link:hover {
-    opacity: .6;
+    margin: auto 26px auto 0;
   }
 }
