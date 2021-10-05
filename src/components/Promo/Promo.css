@@ -4,6 +4,7 @@
   padding: 0 70px;
   min-height: 524px;
   background: #073042;
+  justify-content: space-between;
 }
 
 .promo__section {

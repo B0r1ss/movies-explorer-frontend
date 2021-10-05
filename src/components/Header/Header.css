@@ -9,7 +9,7 @@
 }
 
 .header__logo {
-  margin: auto 38% auto 0;
+  margin: auto auto auto 0;
 }
 
 @media(max-width: 992px) {
@@ -27,3 +27,4 @@
 .header_type_white {
   background-color: #FAFAFA;
 }
+

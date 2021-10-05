@@ -2,6 +2,7 @@ import React from "react";
 import { CurrentUserContext } from "../../context/currentUserContext";
 import { AppContext } from "../../context/appContext";
 import { useFormWithValidation } from "../../hooks/useForm";
+import Header from "../Header/Header";
 
 export default function Profile() {
   const { values, setValues, handleChange, errors, isFormValid } =
@@ -38,6 +39,7 @@ export default function Profile() {
   return (
     <>
       <section className='profile'>
+        <Header main={false}/>
         <h2 className='profile__title'>Привет, {currentUser.name}!</h2>
         <form className='profile__form' onSubmit={handleSubmit}>
           <fieldset className='profile__fields'>
