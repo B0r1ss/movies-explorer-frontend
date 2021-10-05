@@ -1,5 +1,5 @@
 .profile {
-  width: calc(100% - 70px*2);
+  width: calc(100% - 140px);
   margin: auto;
   padding: 74px 0 70px 0;
   display: flex;
@@ -68,9 +68,7 @@
   padding: 4px;
 }
 
-.profile__form-input-field:focus {
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);;
-}
+
 
 .profile__form-input-field:invalid {
   color: #EE3465;
@@ -159,7 +157,7 @@
   opacity: 0.8;
 }
 
-.profile__button_type_save_disabled {
+.profile__button_type_save:disabled {
   background-color: #F8F8F8;
   color: #C2C2C2;
 }

@@ -15,7 +15,7 @@
   }
 }
 
-@keyframes preloader-inside-red {
+@keyframes preloader-inside-blue {
   0% {
       -webkit-transform: scale(0, 0);
       -moz-transform: scale(0, 0);
@@ -87,6 +87,6 @@
 
 .preloader__round::before {
   z-index: 10;
-  background: #3456F3;;
-  animation: preloader-inside-red 1s ease-in-out infinite;
+  background: #3456F3;
+  animation: preloader-inside-blue 1s ease-in-out infinite;
 }

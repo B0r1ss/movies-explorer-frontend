@@ -6,11 +6,10 @@ import AboutMe from "../AboutMe/AboutMe";
 import Portfolio from "../Portfolio/Portfolio";
 import Footer from "../Footer/Footer";
 
-
-export default function Main(props) {
-    return (
+export default function Main() {
+  return (
     <>
-      <Header />
+      <Header main={true} />
       <Promo />
       <AboutProject />
       <Techs />
@@ -18,6 +17,5 @@ export default function Main(props) {
       <Portfolio />
       <Footer />
     </>
-
-    )
+  );
 }

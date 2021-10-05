@@ -1,9 +1,17 @@
+import Header from "../Header/Header";
+import SearchForm from "../SearchForm/SearchForm";
+import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import Footer from "../Footer/Footer";
+
 export default function Movies() {
   return (
-    <section className="movies">
-      <form className="movies__searchForm">
-        
-      </form>
-    </section>
-  )
+    <>
+      <Header main={false} />
+      <SearchForm saved={false} />
+      <MoviesCardList 
+        isSearching={false}
+      />
+      <Footer />
+    </>
+  );
 }

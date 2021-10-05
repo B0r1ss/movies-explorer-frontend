@@ -29,6 +29,10 @@
   transition: border-color 0.3s;
 }
 
+.movies__error {
+  text-align: center;
+}
+
 .movies__more-button_invisible {
   display: none;
 }

@@ -7,6 +7,7 @@ body {
 
 .page {
   max-width: 1280px;
+  min-width: 320px;
   margin: auto;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

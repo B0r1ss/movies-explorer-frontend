@@ -59,6 +59,7 @@
 }
 
 .header__account {
+  margin-right: 7px;
   align-items: center;
   text-align: center;
   font-style: normal;
@@ -68,7 +69,6 @@
   display: flex;
   padding: 8px 20px;
   color: #000000;
-  background: #F4F4F4;
   border-radius: 20px;
   transition: opacity 0.3s ease-in-out;
 }
@@ -84,6 +84,10 @@
   border: none;
   outline: none;
   display: none;
+}
+
+.header__account_img {
+  margin-left: 14.81px;
 }
 
 .header__burger-menu {

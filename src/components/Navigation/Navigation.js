@@ -1,8 +1,12 @@
 import {Link} from "react-router-dom";
 import React from "react";
+import { AppContext } from "../../context/appContext";
+import accButton from "../../images/account__button.svg"
 
 export default function Navigation() {
     const [isMenuShown, setIsMenuShown] = React.useState(false);
+    const appContext = React.useContext(AppContext)
+
 
     function handleCloseMenuButtonClick() {
         setIsMenuShown(false);
@@ -11,13 +15,12 @@ export default function Navigation() {
     function handleOpenMenuButtonClick() {
         setIsMenuShown(true);
     }
-    const props = {loggedIn: false};
     return (
-        <div className={props.loggedIn
+        <div className={appContext.loggedIn
         ? 'header__navigation'
         : 'header__navigation header__navigation_right'}>
           <div
-          className={props.loggedIn ? '' : 'none-display'}>
+          className={appContext.loggedIn ? '' : 'none-display'}>
               <Link
               to="/movies"
               className="header__link header__movies"
@@ -31,13 +34,13 @@ export default function Navigation() {
             <div className="header__login-navigation">
               <Link
               to="/signup"
-              className={props.loggedIn
+              className={appContext.loggedIn
                 ? 'header__link header__register none-display' :
                   'header__link header__register'}
                   >Регистрация</Link>
-              {props.loggedIn 
+              {appContext.loggedIn 
               ? <Link
-                to="/profile" className="header__link header__account">Аккаунт</Link>
+                to="/profile" className="header__link header__account">Аккаунт <img src={accButton} alt="Аккаунт" className="header__account_img"/></Link>
               : <Link
                 to="/signin"
                 className="header__link header__login"
@@ -46,7 +49,7 @@ export default function Navigation() {
 
             <button
             className={
-              props.loggedIn
+              appContext.loggedIn
               ? 'header__burger-button'
               : 'header__burger-button none-display'
               } onClick={handleOpenMenuButtonClick}></button>
