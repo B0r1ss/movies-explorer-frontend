@@ -28,6 +28,9 @@
   background: #FAFAFA;
   transition: border-color 0.3s;
 }
+.no-display {
+  display: none;
+}
 
 .movies__error {
   text-align: center;

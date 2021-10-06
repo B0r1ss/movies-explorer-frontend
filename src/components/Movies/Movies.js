@@ -10,6 +10,8 @@ export default function Movies() {
       <SearchForm saved={false} />
       <MoviesCardList 
         isSearching={false}
+        isErrorActive={false}
+        notFound={false}
       />
       <Footer />
     </>

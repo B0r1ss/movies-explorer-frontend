@@ -39,7 +39,8 @@ export default function MoviesCard(props) {
       ? `${movieImage}`
       : `https://api.nomoreparties.co${props.movie.image?.url}`
   }`;
-  const savedMovies = JSON.parse(localStorage.getItem("savedMovies"));
+  //const savedMovies = JSON.parse(localStorage.getItem("savedMovies"));
+  const savedMovies = []
   const currentMovie = savedMovies.find(
     (movie) => movie.nameRU === props.movie.nameRU
   );

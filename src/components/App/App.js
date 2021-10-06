@@ -23,7 +23,7 @@ import NotFound from "../NotFound/NotFound";
 export default function App() {
   const history = useHistory();
 
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [loggedIn, setLoggedIn] = React.useState(true);
   const [movies, setMovies] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
@@ -39,8 +39,8 @@ export default function App() {
       if (token) {
         Promise.all([
           moviesApi.getMovies(),
-          mainApi.getUserData(token),
-          mainApi.getSavedMovies(token),
+/*           mainApi.getUserData(token),
+          mainApi.getSavedMovies(token), */
         ])
           .then(([moviesData, userInfo, savedMovesData]) => {
             setMovies(moviesData);

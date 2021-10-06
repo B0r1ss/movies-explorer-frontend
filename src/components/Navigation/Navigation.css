@@ -1,5 +1,5 @@
 .header__navigation {
-  width: 100%;
+  width: 60%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -84,6 +84,9 @@
   border: none;
   outline: none;
   display: none;
+  opacity: 1;
+  transition: opacity 0.3s;
+  cursor: pointer;
 }
 
 .header__account_img {
@@ -127,6 +130,12 @@
   top: 22px;
   right: 22px;
   z-index: 1;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.header__burger-menu-close-button:hover {
+  opacity: .6;
 }
 
 .header__burger-menu-links {
@@ -146,6 +155,11 @@
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
+  transition: opacity 0.3s;
+}
+
+.header__burger-menu-link:hover {
+  opacity: .6;
 }
 
 .header__burger-menu-link:active {
@@ -181,6 +195,7 @@
 
 
 @media(max-width: 768px) {
+
   .header__account {
       display: none;
   }
@@ -191,6 +206,11 @@
 
   .header__burger-button {
       display: block;
+      transition: opacity 0.3s;
+  }
+
+  .header__burger-button:hover {
+    opacity: .3;
   }
 }
 
