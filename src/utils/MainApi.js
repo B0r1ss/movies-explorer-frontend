@@ -66,7 +66,7 @@ class MainApi {
     });
   }
 
-  editUserData(token, name, email) {
+  editUserData({token, name, email}) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "PATCH",
       headers: {

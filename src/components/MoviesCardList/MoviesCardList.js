@@ -3,7 +3,6 @@ import Preloader from "../Preloader/Preloader";
 import React from "react";
 
 function MoviesCardList(props) {
-
   const [initialCardsNumber, setInitialCardsNumber] = React.useState(() => {
     const windowSize = window.innerWidth;
     if (windowSize < 720) {
@@ -42,7 +41,6 @@ function MoviesCardList(props) {
     }
   }
 
-
   const displayedMovies = props.movies?.slice(0, initialCardsNumber);
 
   function handleMoviesIncrease() {
@@ -56,10 +54,12 @@ function MoviesCardList(props) {
   }, []);
 
   return (
-    <section className="movies">
+    <section className='movies'>
       <Preloader isSearching={props.isSearching} />
       <span
-        className={`movies__error ${props.isErrorActive ? "" : "no-display"}`}
+        className={`movies__error ${
+          props.isMoviesErrorActive ? "" : "no-display"
+        }`}
       >
         Во время запроса произошла ошибка
       </span>
@@ -75,7 +75,7 @@ function MoviesCardList(props) {
       >
         Вы пока что ничего не добавили в избранное
       </span>
-      <ul className="movies__list">
+      <ul className='movies__list'>
         {displayedMovies?.map((movie) => {
           return (
             <MoviesCard
@@ -95,7 +95,7 @@ function MoviesCardList(props) {
           props.saved
             ? "movies__more-button movies__more-button_invisible"
             : `movies__more-button ${
-              props.movies?.length === displayedMovies?.length
+                props.movies?.length === displayedMovies?.length
                   ? "movies__more-button_invisible"
                   : ""
               }`

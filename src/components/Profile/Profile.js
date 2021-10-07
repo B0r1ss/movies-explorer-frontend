@@ -9,12 +9,12 @@ export default function Profile() {
     useFormWithValidation();
   const [isFormDisabled, setIsFormDisabled] = React.useState(true);
 
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUserContext = React.useContext(CurrentUserContext);
   const appContext = React.useContext(AppContext);
 
   React.useEffect(() => {
-    setValues(currentUser);
-  }, [currentUser, setValues]);
+    setValues(currentUserContext.currentUser);
+  }, [currentUserContext.currentUser, setValues]);
 
   function handleEditProfileClick(evt) {
     evt.preventDefault();
@@ -23,7 +23,7 @@ export default function Profile() {
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    appContext.onChangeUser(values.name, values.email);
+    appContext.onEditUserInfo(values.name, values.email);
   }
 
   React.useEffect(() => {
@@ -31,16 +31,18 @@ export default function Profile() {
   }, [appContext.isUpdateSuccess, appContext.onChangeUser]);
 
   React.useEffect(() => {
-    if (appContext.isSaving) {
+    if (appContext.inProgress) {
       setIsFormDisabled(true);
     }
-  }, [appContext.isSaving]);
+  }, [appContext.inProgress]);
 
   return (
     <>
-      <Header main={false}/>
+      <Header main={false} />
       <section className='profile'>
-        <h2 className='profile__title'>Привет, {currentUser.name}!</h2>
+        <h2 className='profile__title'>
+          Привет, {currentUserContext.currentUser.name}!
+        </h2>
         <form className='profile__form' onSubmit={handleSubmit}>
           <fieldset className='profile__fields'>
             <div className='profile__form-input'>

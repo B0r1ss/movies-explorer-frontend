@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect, Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory } from "react-router-dom";
 
 //import contexts
 import { AppContext } from "../../context/appContext";
@@ -26,15 +26,27 @@ import cards from "../../utils/cards";
 export default function App() {
   const history = useHistory();
 
+  //user data
   const [loggedIn, setLoggedIn] = React.useState(true);
+  const [token, setToken] = React.useState("");
+  const [userData, setUserData] = React.useState({});
+
+  //movies data
   const [movies, setMovies] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
-  const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
-  const [userData, setUserData] = React.useState({});
-  const [signinErrorMessage, setSigninErrorMessage] = React.useState('')
-  const [signupErrorMessage, setSignupErrorMessage] = React.useState('')
-  const [editProfileErrorMessage, setEditProfileErrorMessage] = React.useState('')
 
+  //error messages
+  const [signinErrorMessage, setSigninErrorMessage] = React.useState("");
+  const [signupErrorMessage, setSignupErrorMessage] = React.useState("");
+  const [editProfileErrorMessage, setEditProfileErrorMessage] =
+    React.useState("");
+
+  //states
+  const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
+  const [inProgress, setInProgress] = React.useState(false);
+  const [updateSuccess, setUpdateSuccess] = React.useState(false);
+  const [notFoundErr, setNotFoundErr] = React.useState(false);
+  const [isMoviesErrorActive, setIsMoviesErrorActive] = React.useState(false);
 
   React.useEffect(() => {
     /*CHECK TOKEN */
@@ -43,56 +55,102 @@ export default function App() {
       if (token) {
         Promise.all([
           moviesApi.getMovies(),
-/*           mainApi.getUserData(token),
-          mainApi.getSavedMovies(token), */
+          mainApi.getUserData(token),
+          mainApi.getSavedMovies(token),
         ])
           .then(([moviesData, userInfo, savedMovesData]) => {
-
-            setUserData();
+            setToken(localStorage.getItem("token"));
+            setUserData(userInfo);
+            setSavedMovies(savedMovesData);
+            setMovies(moviesData);
+            loggedIn(true);
           })
           .catch((err) => {
             console.log(`Error: ${err}`);
           });
       }
     }
-    setMovies(cards)
-    setSavedMovies([{"id":1,"nameRU":"«Роллинг Стоунз» в изгнании","nameEN":"Stones in Exile","director":"Стивен Кайак ","country":"США","year":"2010","duration":61,"description":"В конце 1960-х группа «Роллинг Стоунз», несмотря на все свои мегахиты и сверхуспешные концертные туры, была разорена. Виной всему — бездарный менеджмент и драконовское налогообложение в Британии. Тогда музыканты приняли не самое простое для себя решение: летом 1971 года после выхода альбома «Stiсky Fingers» они отправились на юг Франции записывать новую пластинку. Именно там, на Лазурном Берегу, в арендованном Китом Ричардсом подвале виллы Неллькот родился сборник «Exile on Main St.», который стал лучшим альбомом легендарной группы.","trailerLink":"https://www.youtube.com/watch?v=UXcqcdYABFw","created_at":"2020-11-23T14:12:21.376Z","updated_at":"2020-11-23T14:12:21.376Z","image":{"id":1,"name":"stones-in-exile","alternativeText":"","caption":"","width":512,"height":279,"formats":{"thumbnail":{"hash":"thumbnail_stones_in_exile_b2f1b8f4b7","ext":".jpeg","mime":"image/jpeg","width":245,"height":134,"size":8.79,"path":null,"url":"/uploads/thumbnail_stones_in_exile_b2f1b8f4b7.jpeg"},"small":{"hash":"small_stones_in_exile_b2f1b8f4b7","ext":".jpeg","mime":"image/jpeg","width":500,"height":272,"size":25.68,"path":null,"url":"/uploads/small_stones_in_exile_b2f1b8f4b7.jpeg"}},"hash":"stones_in_exile_b2f1b8f4b7","ext":".jpeg","mime":"image/jpeg","size":25.53,"url":"/uploads/stones_in_exile_b2f1b8f4b7.jpeg","previewUrl":null,"provider":"local","provider_metadata":null,"created_at":"2020-11-23T14:11:57.313Z","updated_at":"2020-11-23T14:11:57.313Z"}},])
-
+    setMovies(cards);
+    setSavedMovies([
+      {
+        id: 1,
+        nameRU: "«Роллинг Стоунз» в изгнании",
+        nameEN: "Stones in Exile",
+        director: "Стивен Кайак ",
+        country: "США",
+        year: "2010",
+        duration: 61,
+        description:
+          "В конце 1960-х группа «Роллинг Стоунз», несмотря на все свои мегахиты и сверхуспешные концертные туры, была разорена. Виной всему — бездарный менеджмент и драконовское налогообложение в Британии. Тогда музыканты приняли не самое простое для себя решение: летом 1971 года после выхода альбома «Stiсky Fingers» они отправились на юг Франции записывать новую пластинку. Именно там, на Лазурном Берегу, в арендованном Китом Ричардсом подвале виллы Неллькот родился сборник «Exile on Main St.», который стал лучшим альбомом легендарной группы.",
+        trailerLink: "https://www.youtube.com/watch?v=UXcqcdYABFw",
+        created_at: "2020-11-23T14:12:21.376Z",
+        updated_at: "2020-11-23T14:12:21.376Z",
+        image:
+          "https://api.nomoreparties.co/uploads/stones_in_exile_b2f1b8f4b7.jpeg",
+      },
+    ]);
     tokenCheck();
   }, [history, loggedIn]);
 
   /*AUTH */
-  function onLogin({ password, email }) {
+  function onLogin(password, email) {
+    inProgress(true);
+
     mainApi
-      .signIn({ password: password, email: email })
+      .authorize(password, email)
       .then((res) => {
-        mainApi
-          .getUserData(res.token)
-          .then((res) => {
-            setUserData(res);
-          })
-          .then(() => {
-            localStorage.setItem("token", res.token);
-            setLoggedIn(true);
-            history.push("/");
-          })
-          .catch((err) => {
-            console.log(`Error get content ${err}`);
-          });
+        if (res.token) {
+          localStorage.setItem("loggedIn", "true");
+          setSigninErrorMessage("");
+          history.push("/movies");
+        } else {
+          setSigninErrorMessage(res.message);
+        }
       })
-      .catch((err) => {
-        console.log(`Error App onLogin ${err}`);
+      .catch(() => {
+        setSigninErrorMessage("Что-то пошло не так...");
+      })
+      .finally(() => {
+        inProgress(false);
       });
   }
 
-  function onRegister({ name, password, email }) {
+  function onRegister(name, password, email) {
+    inProgress(true);
     mainApi
-      .signUp({ name: name, password: password, email: email })
-      .then(() => {
-        history.push("/sign-in");
+      .register(name, password, email)
+      .then((res) => {
+        if (res.user) {
+          setSignupErrorMessage("");
+          onLogin(password, email);
+        } else {
+          setSignupErrorMessage(res.message);
+        }
       })
-      .catch((err) => {
-        console.log(`Error on regiser ${err}`);
+      .catch(() => {
+        setSignupErrorMessage("Что-то пошло не так...");
+      })
+      .finally(() => {
+        inProgress(false);
+      });
+  }
+
+  function onEditUserInfo(name, email) {
+    mainApi
+      .editUserData({ token, name, email })
+      .then((newUser) => {
+        if (newUser._id) {
+          setUserData(newUser);
+          setUpdateSuccess(true);
+          setEditProfileErrorMessage("Профиль обновлен успешно!");
+        } else if (newUser.message) {
+          setEditProfileErrorMessage(newUser.message);
+          setUpdateSuccess(false);
+        }
+      })
+      .catch(() => {
+        setEditProfileErrorMessage("Произошла ошибка");
+        setUpdateSuccess(false);
       });
   }
 
@@ -109,12 +167,12 @@ export default function App() {
   }
 
   function clearAllErrorMessages() {
-    setSigninErrorMessage('');
-    setSignupErrorMessage('');
-    setEditProfileErrorMessage('');
+    setSigninErrorMessage("");
+    setSignupErrorMessage("");
+    setEditProfileErrorMessage("");
   }
 
-  function handleSearchMovies(movies, keyWord) {
+  function handleSearchMovies({ movies, keyWord }) {
     let filteredMovies = [];
 
     movies.forEach((movie) => {
@@ -123,12 +181,85 @@ export default function App() {
           if (movie.duration <= 40) {
             return filteredMovies.push(movie);
           }
-          return;
         }
         return filteredMovies.push(movie);
       }
     });
     return filteredMovies;
+  }
+
+  function searchSavedMovies(keyWord) {
+    const searchSavedMovies = handleSearchMovies({ savedMovies, keyWord });
+    setSavedMovies(searchSavedMovies);
+  }
+
+  function searchMovies(keyWord) {
+    setInProgress(true);
+    setNotFoundErr(false);
+    setIsMoviesErrorActive(false);
+    if (movies.length === 0) {
+      moviesApi
+        .getMovies()
+        .then((movies) => {
+          setMovies(movies);
+          const searchResult = handleSearchMovies({ movies, keyWord });
+          if (searchResult.length === 0) {
+            setNotFoundErr(true);
+            setMovies([]);
+          } else {
+            setMovies(searchResult);
+          }
+        })
+        .catch(() => {
+          setIsMoviesErrorActive(true);
+          setMovies([]);
+        })
+        .finally(() => {
+          setInProgress(false);
+          setIsShortMoviesChecked(false);
+        });
+    } else {
+      const searchResult = handleSearchMovies({ movies, keyWord });
+
+      if (searchResult.length === 0) {
+        setNotFoundErr(true);
+        setMovies([]);
+        setInProgress(false);
+        setIsShortMoviesChecked(false);
+      } else {
+        setMovies(searchResult);
+        setInProgress(false);
+        setIsShortMoviesChecked(false);
+      }
+    }
+  }
+
+  function handleSaveMovie(movie) {
+    mainApi
+      .saveMovie(token, movie)
+      .then((savedMovie) => {
+        const movies = [...savedMovies, savedMovie];
+        setSavedMovies(movies);
+        setSavedMovies((prevState) => [...prevState, savedMovie]);
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}, попробуйте еще раз`);
+      });
+  }
+
+  function handleDeleteMovie(movieId) {
+    mainApi
+      .deleteMovie({ token, movieId })
+      .then(() => {
+        const newSavedMovies = savedMovies.filter((deletedMovie) => {
+          return deletedMovie._id !== movieId;
+        });
+        setSavedMovies(newSavedMovies);
+        setSavedMovies(newSavedMovies);
+      })
+      .catch((err) => {
+        console.log(`Ошибка ${err}, попробуйте еще раз`);
+      });
   }
 
   return (
@@ -142,8 +273,15 @@ export default function App() {
             onLogin: onLogin,
             onSignOut: handleSignOut,
             onClear: clearAllErrorMessages,
-            onSearchMovies: handleSearchMovies,
-            isSaving: "",
+            onEditUserInfo: onEditUserInfo,
+            onSearchMovies: searchMovies,
+            onSearchSavedMovies: searchSavedMovies,
+            onSaveMovie: handleSaveMovie,
+            onDeleteMovie: handleDeleteMovie,
+
+            notFoundErr: notFoundErr,
+            inProgress: inProgress,
+            isMoviesErrorActive: isMoviesErrorActive,
             signinErrorMessage: signinErrorMessage,
             signupErrorMessage: signupErrorMessage,
             editProfileErrorMessage: editProfileErrorMessage,
@@ -182,7 +320,6 @@ export default function App() {
                   path={"/saved-movies"}
                   component={SavedMovies}
                   loggedIn={loggedIn}
-                  onDeleteMovie={""}
                 />
                 <ProtectedRoute
                   exact

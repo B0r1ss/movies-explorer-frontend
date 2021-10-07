@@ -1,13 +1,15 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import movieImage from "../../images/movieImage.jpg";
+import { MoviesContext } from "../../context/moviesContext";
 
 export default function MoviesCard(props) {
   const [isDeleteButtonVisible, setIsDeleteButtonVisible] =
     React.useState(false);
-  
+
   const [isSaved, setIsSaved] = React.useState(false);
 
+  const moviesContext = React.useContext(MoviesContext);
 
   const movie = {
     country: props.movie.country || "Не указано",
@@ -39,9 +41,8 @@ export default function MoviesCard(props) {
       ? `${movieImage}`
       : `https://api.nomoreparties.co${props.movie.image?.url}`
   }`;
-  //const savedMovies = JSON.parse(localStorage.getItem("savedMovies"));
-  const savedMovies = []
-  const currentMovie = savedMovies.find(
+
+  const currentMovie = moviesContext.savedMovies.find(
     (movie) => movie.nameRU === props.movie.nameRU
   );
 
@@ -77,24 +78,24 @@ export default function MoviesCard(props) {
   }, [currentMovie, location]);
 
   return (
-    <li className="movies__list-item">
+    <li className='movies__list-item'>
       <a
         href={props.saved ? props.movie.trailer : props.movie.trailerLink}
-        className="movies__trailer-link"
+        className='movies__trailer-link'
       >
         <img
           alt={props.movie.nameRU}
           src={props.saved ? props.movie.image : image}
-          className="movies__list-poster"
+          className='movies__list-poster'
         />
       </a>
 
       <div
         onMouseEnter={handleCardMouseOver}
         onMouseLeave={handleCardMouseOut}
-        className="movies__list-description"
+        className='movies__list-description'
       >
-        <p className="movies__list-title">{props.movie.nameRU}</p>
+        <p className='movies__list-title'>{props.movie.nameRU}</p>
         {props.saved ? (
           <button
             className={`movies__list-delete-button ${
@@ -111,7 +112,7 @@ export default function MoviesCard(props) {
           ></button>
         )}
       </div>
-      <p className="movies__list-duration">{editedDuration}</p>
+      <p className='movies__list-duration'>{editedDuration}</p>
     </li>
   );
 }
