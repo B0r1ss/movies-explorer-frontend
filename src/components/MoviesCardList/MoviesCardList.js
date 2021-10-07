@@ -1,10 +1,9 @@
 import MoviesCard from "../MoviesCard/MoviesCard";
 import Preloader from "../Preloader/Preloader";
 import React from "react";
-import { MoviesContext } from "../../context/moviesContext";
 
 function MoviesCardList(props) {
-  const moviesContext = React.useContext(MoviesContext);
+
   const [initialCardsNumber, setInitialCardsNumber] = React.useState(() => {
     const windowSize = window.innerWidth;
     if (windowSize < 720) {
@@ -43,7 +42,8 @@ function MoviesCardList(props) {
     }
   }
 
-  const displayedMovies = moviesContext.movies?.slice(0, initialCardsNumber);
+
+  const displayedMovies = props.movies?.slice(0, initialCardsNumber);
 
   function handleMoviesIncrease() {
     setInitialCardsNumber((prevState) => {
@@ -70,7 +70,7 @@ function MoviesCardList(props) {
       </span>
       <span
         className={`movies__no-saved ${
-          props.saved && moviesContext.movies.length === 0 ? "" : "no-display"
+          props.saved && props.movies.length === 0 ? "" : "no-display"
         }`}
       >
         Вы пока что ничего не добавили в избранное
@@ -95,7 +95,7 @@ function MoviesCardList(props) {
           props.saved
             ? "movies__more-button movies__more-button_invisible"
             : `movies__more-button ${
-                moviesContext.movies?.length === displayedMovies?.length
+              props.movies?.length === displayedMovies?.length
                   ? "movies__more-button_invisible"
                   : ""
               }`

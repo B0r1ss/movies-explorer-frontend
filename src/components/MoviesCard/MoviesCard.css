@@ -42,12 +42,12 @@
   border-radius: 50%;
   outline: none;
   padding: 0;
-  transition: border-color 0.3s;
+  transition: transform 0.3s;
 }
 
 .movies__list-like-button:hover {
   cursor: pointer;
-  border: 1px solid #EE3465;
+  transform: scale(1.5)
 }
 
 .movies__list-like-button_clicked {

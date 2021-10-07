@@ -6,7 +6,6 @@ import accButton from "../../images/account__button.svg"
 export default function Navigation() {
     const [isMenuShown, setIsMenuShown] = React.useState(false);
     const appContext = React.useContext(AppContext)
-    console.log(appContext.loggedIn)
 
 
     function handleCloseMenuButtonClick() {

@@ -95,7 +95,6 @@ export default function MoviesCard(props) {
         className="movies__list-description"
       >
         <p className="movies__list-title">{props.movie.nameRU}</p>
-
         {props.saved ? (
           <button
             className={`movies__list-delete-button ${

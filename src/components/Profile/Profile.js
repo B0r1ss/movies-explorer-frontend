@@ -38,8 +38,8 @@ export default function Profile() {
 
   return (
     <>
+      <Header main={false}/>
       <section className='profile'>
-        <Header main={false}/>
         <h2 className='profile__title'>Привет, {currentUser.name}!</h2>
         <form className='profile__form' onSubmit={handleSubmit}>
           <fieldset className='profile__fields'>

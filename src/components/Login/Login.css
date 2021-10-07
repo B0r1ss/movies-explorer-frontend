@@ -7,6 +7,8 @@
   align-items: flex-start;
 }
 
+
+
 .login__fields {
   margin-bottom: 155px;
 }
@@ -20,5 +22,8 @@
 @media(max-width: 720px) {
   .login {
       width: calc(100% - 30px*2);
+  }
+  .login__image {
+    align-self: center;
   }
 }
