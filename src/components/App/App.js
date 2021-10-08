@@ -20,14 +20,12 @@ import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
 import NotFound from "../NotFound/NotFound";
 
-//temp
-import cards from "../../utils/cards";
 
 export default function App() {
   const history = useHistory();
 
   //user data
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [token, setToken] = React.useState("");
   const [userData, setUserData] = React.useState({});
 
@@ -63,14 +61,13 @@ export default function App() {
             setUserData(userInfo);
             setSavedMovies(savedMovesData);
             setMovies(moviesData);
-            loggedIn(true);
+            setLoggedIn(true);
           })
           .catch((err) => {
             console.log(`Error: ${err}`);
           });
       }
     }
-    setMovies(cards);
     setSavedMovies([
       {
         id: 1,
@@ -94,13 +91,13 @@ export default function App() {
 
   /*AUTH */
   function onLogin(password, email) {
-    inProgress(true);
-
+    setInProgress(true);
     mainApi
-      .authorize(password, email)
+      .signIn({password, email})
       .then((res) => {
         if (res.token) {
-          localStorage.setItem("loggedIn", "true");
+          localStorage.setItem("token", res.token)
+          setLoggedIn(true);
           setSigninErrorMessage("");
           history.push("/movies");
         } else {
@@ -111,14 +108,14 @@ export default function App() {
         setSigninErrorMessage("Что-то пошло не так...");
       })
       .finally(() => {
-        inProgress(false);
+        setInProgress(false);
       });
   }
 
   function onRegister(name, password, email) {
-    inProgress(true);
+    setInProgress(true);
     mainApi
-      .register(name, password, email)
+      .signUp({name, password, email})
       .then((res) => {
         if (res.user) {
           setSignupErrorMessage("");
@@ -131,11 +128,11 @@ export default function App() {
         setSignupErrorMessage("Что-то пошло не так...");
       })
       .finally(() => {
-        inProgress(false);
+        setInProgress(false);
       });
   }
 
-  function onEditUserInfo(name, email) {
+  function onEditUserInfo({name, email}) {
     mainApi
       .editUserData({ token, name, email })
       .then((newUser) => {
@@ -248,8 +245,9 @@ export default function App() {
   }
 
   function handleDeleteMovie(movieId) {
+    console.log(movieId.length)
     mainApi
-      .deleteMovie({ token, movieId })
+      .deleteMovie( token, movieId )
       .then(() => {
         const newSavedMovies = savedMovies.filter((deletedMovie) => {
           return deletedMovie._id !== movieId;

@@ -1,5 +1,5 @@
 class MainApi {
-  constructor(baseUrl) {
+  constructor({baseUrl}) {
     this._baseUrl = baseUrl;
   }
 
@@ -148,7 +148,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: ""
+  baseUrl: "https://movies-explorer.bor.nomoredomains.club/api"
 })
 
 export default mainApi
