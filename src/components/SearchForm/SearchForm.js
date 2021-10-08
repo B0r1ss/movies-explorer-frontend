@@ -26,36 +26,38 @@ export default function SearchForm(props) {
   }
 
   return (
-    <form className='search-form' onSubmit={handleSearchMovies}>
-      <img src={search__icon} alt='Поиск' className='search__icon' />
-      <div className='search__form-field'>
-        <input
-          value={searchValue || ""}
-          required
-          onChange={handleChangeSearch}
-          className='search-form__input'
-          placeholder='Фильм'
-        ></input>
-        <span
-          className={`search__form-error ${
-            isSearchValid ? "search__form-error_hidden" : ""
-          }`}
-        >
-          Нужно ввести ключевое слово
-        </span>
-      </div>
-      <button className='search-form__button' type='submit'>
-        Найти
-      </button>
-      <div className='search-form__checkbox'>
-        <div className='search-form__vl'>
-          <label className='search-form__switch'>
-            <input type='checkbox' onChange={appContext.onShortMoviesCheck} />
-            <span className='slider round'></span>
-          </label>
+    <div className="search">
+      <form className='search-form' onSubmit={handleSearchMovies}>
+        <img src={search__icon} alt='Поиск' className='search__icon' />
+        <div className='search__form-field'>
+          <input
+            value={searchValue || ""}
+            required
+            onChange={handleChangeSearch}
+            className='search-form__input'
+            placeholder='Фильм'
+          ></input>
+          <span
+            className={`search__form-error ${
+              isSearchValid ? "search__form-error_hidden" : ""
+            }`}
+          >
+            Нужно ввести ключевое слово
+          </span>
         </div>
-        <p className='search-form__text'>Короткометражки</p>
-      </div>
-    </form>
+        <button className='search-form__button' type='submit'>
+          Найти
+        </button>
+        <div className='search-form__checkbox'>
+          <div className='search-form__vl'>
+            <label className='search-form__switch'>
+              <input type='checkbox' onChange={appContext.onShortMoviesCheck} />
+              <span className='slider round'></span>
+            </label>
+          </div>
+          <p className='search-form__text'>Короткометражки</p>
+        </div>
+      </form>
+    </div>
   );
 }

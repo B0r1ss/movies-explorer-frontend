@@ -1,8 +1,20 @@
-.search-form {
-  padding: 0 70px;
+.search {
+  width: calc(100% - 70px*2);
+  margin: auto;
   display: flex;
+  border-bottom: 1px solid #E8E8E8;
+  padding: 70px 0 70px 0;
+}
+
+.search-form {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  background: #FFFFFF;
+  border-radius: 9px;
   flex-direction: row;
   align-items: center;
+  box-shadow: 0px 3px 14px rgba(0, 0, 0, 0.08);
 }
 
 .search__icon {
@@ -139,7 +151,7 @@ input:checked + .slider:before {
 }
 
 .search-form__text {
-  margin: auto 0 auto 14px;
+  margin: auto 20px auto 14px;
   font-style: normal;
 font-weight: normal;
 font-size: 13px;
@@ -156,8 +168,9 @@ color: #000000;
 }
 
 @media(max-width: 768px) {
-  .search-form {
-      padding: 80px 30px 120px 30px;
+  .search {
+    width: calc(100% - 30px*2);
+      padding: 80px 30px 89px 30px;
   }
 }
 
@@ -183,11 +196,11 @@ color: #000000;
 }
 
 @media(max-width: 600px) {
+
   .search-form {
     padding: 99px 29px 45px 29px;
     flex-wrap: wrap;
     justify-content: center;
-    
   }
 
   .search-form__checkbox {
