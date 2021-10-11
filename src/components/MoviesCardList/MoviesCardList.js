@@ -15,6 +15,7 @@ function MoviesCardList(props) {
       return 12;
     }
   });
+  // eslint-disable-next-line no-unused-vars
   const [moreCardsNumber, setMoreCardsNumber] = React.useState(() => {
     const windowSize = window.innerWidth;
     if (windowSize < 720) {

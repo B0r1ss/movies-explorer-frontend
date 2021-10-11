@@ -13,7 +13,7 @@ function SavedMovies(props) {
     return (
         <>
             <Header loggedIn={props.loggedIn} main={false}/>
-            <SearchForm/>
+            <SearchForm saved={true}/>
             <MoviesCardList 
               saved={true}
               movies={moviesContext.savedMovies}

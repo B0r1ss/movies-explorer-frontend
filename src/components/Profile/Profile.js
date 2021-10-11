@@ -28,7 +28,7 @@ export default function Profile() {
 
   React.useEffect(() => {
     setIsFormDisabled(appContext.isUpdateSuccess);
-  }, [appContext.isUpdateSuccess, appContext.onChangeUser]);
+  }, [appContext.isUpdateSuccess, appContext.onEditUserInfo]);
 
   React.useEffect(() => {
     if (appContext.inProgress) {

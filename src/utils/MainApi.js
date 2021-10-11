@@ -138,12 +138,6 @@ class MainApi {
       .then((res) => {
         return this._getResponseData(res);
       })
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem("token", data.token);
-        }
-        return data;
-      });
   }
 }
 

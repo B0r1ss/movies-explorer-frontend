@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
 //import contexts
 import { AppContext } from "../../context/appContext";
@@ -23,6 +23,7 @@ import NotFound from "../NotFound/NotFound";
 
 export default function App() {
   const history = useHistory();
+  const location = useLocation();
 
   //user data
   const [loggedIn, setLoggedIn] = React.useState(false);
@@ -46,6 +47,7 @@ export default function App() {
   const [notFoundErr, setNotFoundErr] = React.useState(false);
   const [isMoviesErrorActive, setIsMoviesErrorActive] = React.useState(false);
 
+
   React.useEffect(() => {
     /*CHECK TOKEN */
     function tokenCheck() {
@@ -68,26 +70,18 @@ export default function App() {
           });
       }
     }
-    setSavedMovies([
-      {
-        id: 1,
-        nameRU: "«Роллинг Стоунз» в изгнании",
-        nameEN: "Stones in Exile",
-        director: "Стивен Кайак ",
-        country: "США",
-        year: "2010",
-        duration: 61,
-        description:
-          "В конце 1960-х группа «Роллинг Стоунз», несмотря на все свои мегахиты и сверхуспешные концертные туры, была разорена. Виной всему — бездарный менеджмент и драконовское налогообложение в Британии. Тогда музыканты приняли не самое простое для себя решение: летом 1971 года после выхода альбома «Stiсky Fingers» они отправились на юг Франции записывать новую пластинку. Именно там, на Лазурном Берегу, в арендованном Китом Ричардсом подвале виллы Неллькот родился сборник «Exile on Main St.», который стал лучшим альбомом легендарной группы.",
-        trailerLink: "https://www.youtube.com/watch?v=UXcqcdYABFw",
-        created_at: "2020-11-23T14:12:21.376Z",
-        updated_at: "2020-11-23T14:12:21.376Z",
-        image:
-          "https://api.nomoreparties.co/uploads/stones_in_exile_b2f1b8f4b7.jpeg",
-      },
-    ]);
     tokenCheck();
   }, [history, loggedIn]);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    setEditProfileErrorMessage('');
+
+    mainApi.getSavedMovies(token)
+        .then((res) => {
+            setSavedMovies(res);
+        })
+}, [location]);
 
   /*AUTH */
   function onLogin(password, email) {
@@ -132,7 +126,7 @@ export default function App() {
       });
   }
 
-  function onEditUserInfo({name, email}) {
+  function onEditUserInfo(name, email) {
     mainApi
       .editUserData({ token, name, email })
       .then((newUser) => {
@@ -169,10 +163,9 @@ export default function App() {
     setEditProfileErrorMessage("");
   }
 
-  function handleSearchMovies({ movies, keyWord }) {
+  function handleSearchMovies({ serchMovies, keyWord }) {
     let filteredMovies = [];
-
-    movies.forEach((movie) => {
+    serchMovies.forEach((movie) => {
       if (movie.nameRU.indexOf(keyWord) > -1) {
         if (isShortMoviesChecked) {
           if (movie.duration <= 40) {
@@ -186,7 +179,7 @@ export default function App() {
   }
 
   function searchSavedMovies(keyWord) {
-    const searchSavedMovies = handleSearchMovies({ savedMovies, keyWord });
+    const searchSavedMovies = handleSearchMovies({ serchMovies:savedMovies, keyWord });
     setSavedMovies(searchSavedMovies);
   }
 
@@ -195,11 +188,11 @@ export default function App() {
     setNotFoundErr(false);
     setIsMoviesErrorActive(false);
     if (movies.length === 0) {
-      moviesApi
-        .getMovies()
+      moviesApi.getMovies()
         .then((movies) => {
           setMovies(movies);
-          const searchResult = handleSearchMovies({ movies, keyWord });
+          console.log(movies)
+          const searchResult = handleSearchMovies({ serchMovies:movies, keyWord });
           if (searchResult.length === 0) {
             setNotFoundErr(true);
             setMovies([]);
@@ -216,7 +209,7 @@ export default function App() {
           setIsShortMoviesChecked(false);
         });
     } else {
-      const searchResult = handleSearchMovies({ movies, keyWord });
+      const searchResult = handleSearchMovies({ serchMovies:movies, keyWord });
 
       if (searchResult.length === 0) {
         setNotFoundErr(true);
@@ -237,7 +230,6 @@ export default function App() {
       .then((savedMovie) => {
         const movies = [...savedMovies, savedMovie];
         setSavedMovies(movies);
-        setSavedMovies((prevState) => [...prevState, savedMovie]);
       })
       .catch((err) => {
         console.log(`Ошибка ${err}, попробуйте еще раз`);
@@ -245,14 +237,12 @@ export default function App() {
   }
 
   function handleDeleteMovie(movieId) {
-    console.log(movieId.length)
     mainApi
       .deleteMovie( token, movieId )
       .then(() => {
         const newSavedMovies = savedMovies.filter((deletedMovie) => {
           return deletedMovie._id !== movieId;
         });
-        setSavedMovies(newSavedMovies);
         setSavedMovies(newSavedMovies);
       })
       .catch((err) => {
@@ -283,6 +273,7 @@ export default function App() {
             signinErrorMessage: signinErrorMessage,
             signupErrorMessage: signupErrorMessage,
             editProfileErrorMessage: editProfileErrorMessage,
+            isUpdateSuccess: updateSuccess,
           }}
         >
           <MoviesContext.Provider
