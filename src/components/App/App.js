@@ -191,7 +191,6 @@ export default function App() {
       moviesApi.getMovies()
         .then((movies) => {
           setMovies(movies);
-          console.log(movies)
           const searchResult = handleSearchMovies({ serchMovies:movies, keyWord });
           if (searchResult.length === 0) {
             setNotFoundErr(true);
