@@ -73,6 +73,27 @@ export default function App() {
     tokenCheck();
   }, [history, loggedIn]);
 
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setEditProfileErrorMessage('');
+      mainApi.getSavedMovies(token)
+        .then((res) => {
+            setSavedMovies(res);
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+
+        moviesApi.getMovies()
+          .then((movs)=>{
+            setMovies(movs)
+          }).catch((err)=>{
+            console.log(err)
+          })
+    }
+}, [location]);
+
   /*AUTH */
   function onLogin(password, email) {
     setInProgress(false);
@@ -239,20 +260,6 @@ export default function App() {
         console.log(`Ошибка ${err}, попробуйте еще раз`);
       });
   }
-
-  React.useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setEditProfileErrorMessage('');
-      mainApi.getSavedMovies(token)
-        .then((res) => {
-            setSavedMovies(res);
-        })
-        .catch((err)=>{
-          console.log(err)
-        })
-    }
-  }, [location]);
 
   return (
     <div className='App'>
