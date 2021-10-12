@@ -28,7 +28,7 @@
   margin-bottom: 193px;
 }
 
-.none-display {
+.no-display {
   display: none;
 }
 
@@ -179,6 +179,7 @@
   align-self: center;
   transition: opacity 0.3s;
 }
+
 
 .profile__signout-link:hover {
   cursor: pointer;

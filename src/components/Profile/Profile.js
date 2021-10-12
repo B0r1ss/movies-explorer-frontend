@@ -7,7 +7,7 @@ import Header from "../Header/Header";
 export default function Profile() {
   const { values, setValues, handleChange, errors, isFormValid } =
     useFormWithValidation();
-  const [isFormDisabled, setIsFormDisabled] = React.useState(true);
+  const [isFormDisabled, setIsFormDisabled] = React.useState(false);
 
   const currentUserContext = React.useContext(CurrentUserContext);
   const appContext = React.useContext(AppContext);
@@ -15,6 +15,14 @@ export default function Profile() {
   React.useEffect(() => {
     setValues(currentUserContext.currentUser);
   }, [currentUserContext.currentUser, setValues]);
+
+  React.useEffect(() => {
+    setIsFormDisabled(appContext.inProgressUpdate);
+  }, [appContext.inProgressUpdate, appContext.onEditUserInfo]);
+
+  React.useEffect(() => {
+    setIsFormDisabled(false);
+  }, []);
 
   function handleEditProfileClick(evt) {
     evt.preventDefault();
@@ -26,15 +34,7 @@ export default function Profile() {
     appContext.onEditUserInfo(values.name, values.email);
   }
 
-  React.useEffect(() => {
-    setIsFormDisabled(appContext.isUpdateSuccess);
-  }, [appContext.isUpdateSuccess, appContext.onEditUserInfo]);
 
-  React.useEffect(() => {
-    if (appContext.inProgress) {
-      setIsFormDisabled(true);
-    }
-  }, [appContext.inProgress]);
 
   return (
     <>

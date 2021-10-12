@@ -43,7 +43,7 @@ export default function App() {
   //states
   const [isShortMoviesChecked, setIsShortMoviesChecked] = React.useState(false);
   const [inProgress, setInProgress] = React.useState(false);
-  const [updateSuccess, setUpdateSuccess] = React.useState(false);
+  const [inProgressUpdate, setinProgressUpdate] = React.useState(true);
   const [notFoundErr, setNotFoundErr] = React.useState(false);
   const [isMoviesErrorActive, setIsMoviesErrorActive] = React.useState(false);
 
@@ -73,19 +73,9 @@ export default function App() {
     tokenCheck();
   }, [history, loggedIn]);
 
-  React.useEffect(() => {
-    const token = localStorage.getItem('token');
-    setEditProfileErrorMessage('');
-
-    mainApi.getSavedMovies(token)
-        .then((res) => {
-            setSavedMovies(res);
-        })
-}, [location]);
-
   /*AUTH */
   function onLogin(password, email) {
-    setInProgress(true);
+    setInProgress(false);
     mainApi
       .signIn({password, email})
       .then((res) => {
@@ -107,7 +97,7 @@ export default function App() {
   }
 
   function onRegister(name, password, email) {
-    setInProgress(true);
+    setInProgress(false);
     mainApi
       .signUp({name, password, email})
       .then((res) => {
@@ -127,21 +117,22 @@ export default function App() {
   }
 
   function onEditUserInfo(name, email) {
+    setinProgressUpdate(false);
     mainApi
       .editUserData({ token, name, email })
       .then((newUser) => {
         if (newUser._id) {
           setUserData(newUser);
-          setUpdateSuccess(true);
+          setinProgressUpdate(true);
           setEditProfileErrorMessage("Профиль обновлен успешно!");
         } else if (newUser.message) {
           setEditProfileErrorMessage(newUser.message);
-          setUpdateSuccess(false);
+          setinProgressUpdate(false);
         }
       })
       .catch(() => {
         setEditProfileErrorMessage("Произошла ошибка");
-        setUpdateSuccess(false);
+        setinProgressUpdate(false);
       });
   }
 
@@ -154,7 +145,7 @@ export default function App() {
     localStorage.removeItem("token");
     setLoggedIn(false);
     setUserData("");
-    history.push("/sign-in");
+    history.push("/signin");
   }
 
   function clearAllErrorMessages() {
@@ -249,6 +240,20 @@ export default function App() {
       });
   }
 
+  React.useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setEditProfileErrorMessage('');
+      mainApi.getSavedMovies(token)
+        .then((res) => {
+            setSavedMovies(res);
+        })
+        .catch((err)=>{
+          console.log(err)
+        })
+    }
+  }, [location]);
+
   return (
     <div className='App'>
       <div className='page'>
@@ -268,11 +273,11 @@ export default function App() {
 
             notFoundErr: notFoundErr,
             inProgress: inProgress,
+            inProgressUpdate: inProgressUpdate,
             isMoviesErrorActive: isMoviesErrorActive,
             signinErrorMessage: signinErrorMessage,
             signupErrorMessage: signupErrorMessage,
             editProfileErrorMessage: editProfileErrorMessage,
-            isUpdateSuccess: updateSuccess,
           }}
         >
           <MoviesContext.Provider
