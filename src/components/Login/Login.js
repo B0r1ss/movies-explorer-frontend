@@ -24,6 +24,7 @@ export default function Login() {
           <input
             type="email"
             name="email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
             className="login__input auth__input"
             value={values.email || ""}
             onChange={handleChange}

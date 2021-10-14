@@ -9,6 +9,7 @@ function Register() {
   const { values, handleChange, errors, isFormValid } = useFormWithValidation();
   const appContext = React.useContext(AppContext);
 
+
   function handleRegister(evt) {
     evt.preventDefault();
     appContext.onRegister(values.name, values.password, values.email);
@@ -38,6 +39,7 @@ function Register() {
             <input
               type="email"
               name="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               className="register__input auth__input"
               value={values.email || ""}
               onChange={handleChange}

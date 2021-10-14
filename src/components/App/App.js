@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Switch, useHistory, useLocation } from "react-router-dom";
+import { Route, Switch, useHistory, useLocation, Redirect } from "react-router-dom";
 
 //import contexts
 import { AppContext } from "../../context/appContext";
@@ -33,6 +33,8 @@ export default function App() {
   //movies data
   const [movies, setMovies] = React.useState([]);
   const [savedMovies, setSavedMovies] = React.useState([]);
+  const [searchedMovies, setSearchedMovies] = React.useState([]);
+  const [searchedSavedMovies, setSarchedSavedMovies] = React.useState([]);
 
   //error messages
   const [signinErrorMessage, setSigninErrorMessage] = React.useState("");
@@ -122,7 +124,7 @@ export default function App() {
     mainApi
       .signUp({name, password, email})
       .then((res) => {
-        if (res.user) {
+        if (res.name) {
           setSignupErrorMessage("");
           onLogin(password, email);
         } else {
@@ -146,7 +148,7 @@ export default function App() {
           setUserData(newUser);
           setinProgressUpdate(true);
           setEditProfileErrorMessage("Профиль обновлен успешно!");
-        } else if (newUser.message) {
+        } else {
           setEditProfileErrorMessage(newUser.message);
           setinProgressUpdate(false);
         }
@@ -161,12 +163,19 @@ export default function App() {
     setIsShortMoviesChecked(evt.target.checked);
   }
 
+  function handleShortMoviesSearch(movies) {
+    const shortMoviesArray = movies.filter(
+        (movie) => movie.duration <= 40
+    );
+    return shortMoviesArray;
+  }
+
   function handleSignOut(evt) {
     evt.preventDefault();
     localStorage.removeItem("token");
     setLoggedIn(false);
     setUserData("");
-    history.push("/signin");
+    history.push("/");
   }
 
   function clearAllErrorMessages() {
@@ -175,10 +184,12 @@ export default function App() {
     setEditProfileErrorMessage("");
   }
 
+// SERACHING MOVIES
+
   function handleSearchMovies({ serchMovies, keyWord }) {
     let filteredMovies = [];
     serchMovies.forEach((movie) => {
-      if (movie.nameRU.indexOf(keyWord) > -1) {
+      if (movie.nameRU.toLowerCase().indexOf(keyWord.toLowerCase()) > -1) {
         if (isShortMoviesChecked) {
           if (movie.duration <= 40) {
             return filteredMovies.push(movie);
@@ -191,12 +202,23 @@ export default function App() {
   }
 
   function searchSavedMovies(keyWord) {
-    const searchSavedMovies = handleSearchMovies({ serchMovies:savedMovies, keyWord });
-    setSavedMovies(searchSavedMovies);
+    setInProgress(true)
+    setNotFoundErr(false);
+    setIsMoviesErrorActive(false);
+    const searchSavedMovies = handleSearchMovies({ serchMovies: savedMovies, keyWord });
+    if (searchSavedMovies.length === 0) {
+      setInProgress(false)
+      setNotFoundErr(true);
+      setSarchedSavedMovies([]);
+    } else {
+      setInProgress(false)
+      setNotFoundErr(false);
+      setSarchedSavedMovies(searchSavedMovies);
+    }
   }
 
   function searchMovies(keyWord) {
-    setInProgress(true);
+    setInProgress(true)
     setNotFoundErr(false);
     setIsMoviesErrorActive(false);
     if (movies.length === 0) {
@@ -205,35 +227,35 @@ export default function App() {
           setMovies(movies);
           const searchResult = handleSearchMovies({ serchMovies:movies, keyWord });
           if (searchResult.length === 0) {
+            setInProgress(false)
             setNotFoundErr(true);
-            setMovies([]);
+            setSearchedMovies([]);
           } else {
-            setMovies(searchResult);
+            setSearchedMovies(searchResult);
           }
         })
         .catch(() => {
+          setInProgress(false)
           setIsMoviesErrorActive(true);
-          setMovies([]);
+          setSearchedMovies([]);
         })
-        .finally(() => {
-          setInProgress(false);
-          setIsShortMoviesChecked(false);
-        });
     } else {
       const searchResult = handleSearchMovies({ serchMovies:movies, keyWord });
 
       if (searchResult.length === 0) {
         setNotFoundErr(true);
-        setMovies([]);
+        setSearchedMovies([]);
         setInProgress(false);
         setIsShortMoviesChecked(false);
       } else {
-        setMovies(searchResult);
+        setSearchedMovies(searchResult);
         setInProgress(false);
         setIsShortMoviesChecked(false);
       }
     }
   }
+
+//SAVING MOVIES
 
   function handleSaveMovie(movie) {
     mainApi
@@ -277,6 +299,7 @@ export default function App() {
             onSearchSavedMovies: searchSavedMovies,
             onSaveMovie: handleSaveMovie,
             onDeleteMovie: handleDeleteMovie,
+            shortMoviesSearch: handleShortMoviesSearch,
 
             notFoundErr: notFoundErr,
             inProgress: inProgress,
@@ -285,12 +308,15 @@ export default function App() {
             signinErrorMessage: signinErrorMessage,
             signupErrorMessage: signupErrorMessage,
             editProfileErrorMessage: editProfileErrorMessage,
+            isShortMoviesChecked: isShortMoviesChecked,
           }}
         >
           <MoviesContext.Provider
             value={{
               movies: movies,
               savedMovies: savedMovies,
+              searchedMovies: searchedMovies,
+              searchedSavedMovies: searchedSavedMovies,
             }}
           >
             <CurrentUserContext.Provider
@@ -304,10 +330,10 @@ export default function App() {
                 </Route>
 
                 <Route path={"/signin"}>
-                  <Login />
+                  {loggedIn ? <Redirect to="/" /> :<Login />}
                 </Route>
                 <Route path={"/signup"}>
-                  <Register />
+                  {loggedIn ? <Redirect to="/" /> :<Register />}
                 </Route>
                 <ProtectedRoute
                   exact
