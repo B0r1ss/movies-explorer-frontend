@@ -16,7 +16,7 @@ export default function Login() {
 
   return (
     <section className="login ">
-      <img src={logo} alt="Logo" className="login__image " />
+      <Link to="/" className="login__image"><img src={logo} alt="Logo" /></Link>
       <h2 className="login__title auth__title">Рады видеть!</h2>
       <form className="login__form auth__form" onSubmit={handleLogin}>
         <fieldset className="login__fields auth__fields">

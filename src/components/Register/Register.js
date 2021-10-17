@@ -19,7 +19,7 @@ function Register() {
   return (
     <>
       <section className="register">
-        <img src={logo} alt="Logo" className="login__image"/>
+      <Link to="/" className="login__image"><img src={logo} alt="Logo"/></Link>
         <h2 className="register__title auth__title">Добро пожаловать!</h2>
         <form className="register__form auth__form" onSubmit={handleRegister}>
           <fieldset className="register__fields auth__fields">

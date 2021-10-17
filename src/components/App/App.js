@@ -26,8 +26,7 @@ export default function App() {
   const location = useLocation();
 
   //user data
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [token, setToken] = React.useState("");
+  const [token, setToken] = React.useState(localStorage.getItem('token'));
   const [userData, setUserData] = React.useState({});
 
   //movies data
@@ -48,6 +47,7 @@ export default function App() {
   const [inProgressUpdate, setinProgressUpdate] = React.useState(true);
   const [notFoundErr, setNotFoundErr] = React.useState(false);
   const [isMoviesErrorActive, setIsMoviesErrorActive] = React.useState(false);
+  let isLoggedIn = localStorage.getItem("token");
 
 
   React.useEffect(() => {
@@ -55,6 +55,7 @@ export default function App() {
     function tokenCheck() {
       const token = localStorage.getItem("token");
       if (token) {
+        setInProgress(true)
         Promise.all([
           moviesApi.getMovies(),
           mainApi.getUserData(token),
@@ -65,15 +66,16 @@ export default function App() {
             setUserData(userInfo);
             setSavedMovies(savedMovesData);
             setMovies(moviesData);
-            setLoggedIn(true);
+            setInProgress(false)
           })
           .catch((err) => {
+            setInProgress(false)
             console.log(`Error: ${err}`);
           });
       }
     }
     tokenCheck();
-  }, [history, loggedIn]);
+  }, [history, isLoggedIn]);
 
   React.useEffect(() => {
     const token = localStorage.getItem('token');
@@ -104,7 +106,7 @@ export default function App() {
       .then((res) => {
         if (res.token) {
           localStorage.setItem("token", res.token)
-          setLoggedIn(true);
+          isLoggedIn=true
           setSigninErrorMessage("");
           history.push("/movies");
         } else {
@@ -120,7 +122,7 @@ export default function App() {
   }
 
   function onRegister(name, password, email) {
-    setInProgress(false);
+    setInProgress(true);
     mainApi
       .signUp({name, password, email})
       .then((res) => {
@@ -140,7 +142,7 @@ export default function App() {
   }
 
   function onEditUserInfo(name, email) {
-    setinProgressUpdate(false);
+    setinProgressUpdate(true);
     mainApi
       .editUserData({ token, name, email })
       .then((newUser) => {
@@ -173,7 +175,7 @@ export default function App() {
   function handleSignOut(evt) {
     evt.preventDefault();
     localStorage.removeItem("token");
-    setLoggedIn(false);
+    isLoggedIn=false
     setUserData("");
     history.push("/");
   }
@@ -288,7 +290,7 @@ export default function App() {
       <div className='page'>
         <AppContext.Provider
           value={{
-            loggedIn: loggedIn,
+            loggedIn: isLoggedIn,
             onShortMoviesCheck: handleShortMoviesCheck,
             onRegister: onRegister,
             onLogin: onLogin,
@@ -330,28 +332,28 @@ export default function App() {
                 </Route>
 
                 <Route path={"/signin"}>
-                  {loggedIn ? <Redirect to="/" /> :<Login />}
+                  {isLoggedIn ? <Redirect to="/" /> :<Login />}
                 </Route>
                 <Route path={"/signup"}>
-                  {loggedIn ? <Redirect to="/" /> :<Register />}
+                  {isLoggedIn ? <Redirect to="/" /> :<Register />}
                 </Route>
                 <ProtectedRoute
                   exact
                   path={"/movies"}
                   component={Movies}
-                  loggedIn={loggedIn}
+                  loggedIn={isLoggedIn}
                 />
                 <ProtectedRoute
                   exact
                   path={"/saved-movies"}
                   component={SavedMovies}
-                  loggedIn={loggedIn}
+                  loggedIn={isLoggedIn}
                 />
                 <ProtectedRoute
                   exact
                   path={"/profile"}
                   component={Profile}
-                  loggedIn={loggedIn}
+                  loggedIn={isLoggedIn}
                 />
                 <Route path='*'>
                   <NotFound />

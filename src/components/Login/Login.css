@@ -7,6 +7,15 @@
   align-items: flex-start;
 }
 
+.login__image {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.login__image:hover {
+  opacity: .6;
+}
+
 
 
 .login__fields {

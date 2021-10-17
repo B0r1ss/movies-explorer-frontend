@@ -34,7 +34,6 @@ export default function SearchForm(props) {
             name="search__input"
             type="text"
             value={searchValue || ""}
-            pattern="[A-Za-z0-9]{1,30}"
             minLength="1"
             maxLength="200"
             onChange={handleChangeSearch}
