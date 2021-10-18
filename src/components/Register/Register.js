@@ -9,6 +9,7 @@ function Register() {
   const { values, handleChange, errors, isFormValid } = useFormWithValidation();
   const appContext = React.useContext(AppContext);
 
+
   function handleRegister(evt) {
     evt.preventDefault();
     appContext.onRegister(values.name, values.password, values.email);
@@ -18,7 +19,7 @@ function Register() {
   return (
     <>
       <section className="register">
-        <img src={logo} alt="Logo" className="login__image"/>
+      <Link to="/" className="login__image"><img src={logo} alt="Logo"/></Link>
         <h2 className="register__title auth__title">Добро пожаловать!</h2>
         <form className="register__form auth__form" onSubmit={handleRegister}>
           <fieldset className="register__fields auth__fields">
@@ -38,6 +39,7 @@ function Register() {
             <input
               type="email"
               name="email"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
               className="register__input auth__input"
               value={values.email || ""}
               onChange={handleChange}

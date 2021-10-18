@@ -9,11 +9,11 @@ export default function SearchForm(props) {
 
   function handleChangeSearch(evt) {
     setSearchValue(evt.target.value);
-    setIsSearchValid(evt.target.checkValidity());
   }
 
   function handleSearchMovies(evt) {
     evt.preventDefault();
+    setIsSearchValid(Boolean(searchValue));
     switch (props.saved) {
       case true:
         appContext.onSearchSavedMovies(searchValue);
@@ -31,8 +31,11 @@ export default function SearchForm(props) {
         <img src={search__icon} alt='Поиск' className='search__icon' />
         <div className='search__form-field'>
           <input
+            name="search__input"
+            type="text"
             value={searchValue || ""}
-            required
+            minLength="1"
+            maxLength="200"
             onChange={handleChangeSearch}
             className='search-form__input'
             placeholder='Фильм'

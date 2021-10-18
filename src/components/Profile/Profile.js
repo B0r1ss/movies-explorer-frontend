@@ -8,6 +8,7 @@ export default function Profile() {
   const { values, setValues, handleChange, errors, isFormValid } =
     useFormWithValidation();
   const [isFormDisabled, setIsFormDisabled] = React.useState(true);
+  const [isValid, setisValid] = React.useState(false);
 
   const currentUserContext = React.useContext(CurrentUserContext);
   const appContext = React.useContext(AppContext);
@@ -15,6 +16,17 @@ export default function Profile() {
   React.useEffect(() => {
     setValues(currentUserContext.currentUser);
   }, [currentUserContext.currentUser, setValues]);
+
+
+  React.useEffect(() => {
+    setIsFormDisabled(appContext.inProgressUpdate);
+  }, [appContext.inProgressUpdate, appContext.onEditUserInfo]);
+
+  React.useEffect(() => {
+    checkValid();
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [handleChange]);
+
 
   function handleEditProfileClick(evt) {
     evt.preventDefault();
@@ -26,15 +38,18 @@ export default function Profile() {
     appContext.onEditUserInfo(values.name, values.email);
   }
 
-  React.useEffect(() => {
-    setIsFormDisabled(appContext.isUpdateSuccess);
-  }, [appContext.isUpdateSuccess, appContext.onChangeUser]);
-
-  React.useEffect(() => {
-    if (appContext.inProgress) {
-      setIsFormDisabled(true);
+  function checkValid() {
+    if (
+      ((currentUserContext.currentUser.email !== values.email || currentUserContext.currentUser.name !== values.name) &&
+      isFormValid)
+    ) {
+      setisValid(true);
+    } else {
+      setisValid(false);
     }
-  }, [appContext.inProgress]);
+}
+
+
 
   return (
     <>
@@ -92,9 +107,9 @@ export default function Profile() {
           ) : (
             <button
               type='submit'
-              disabled={!isFormValid}
+              disabled={!isValid}
               className={`profile__button profile__button_type_save ${
-                isFormValid ? "" : "profile__button_type_save_disabled"
+                isValid ? "" : "profile__button_type_save_disabled"
               }`}
             >
               Сохранить

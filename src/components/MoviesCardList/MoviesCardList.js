@@ -15,6 +15,7 @@ function MoviesCardList(props) {
       return 12;
     }
   });
+  // eslint-disable-next-line no-unused-vars
   const [moreCardsNumber, setMoreCardsNumber] = React.useState(() => {
     const windowSize = window.innerWidth;
     if (windowSize < 720) {
@@ -40,7 +41,6 @@ function MoviesCardList(props) {
       setInitialCardsNumber(12);
     }
   }
-
   const displayedMovies = props.movies?.slice(0, initialCardsNumber);
 
   function handleMoviesIncrease() {
@@ -70,7 +70,7 @@ function MoviesCardList(props) {
       </span>
       <span
         className={`movies__no-saved ${
-          props.saved && props.movies.length === 0 ? "" : "no-display"
+          props.saved && props.movies.length === 0 && !props.notFound ? "" : "no-display"
         }`}
       >
         Вы пока что ничего не добавили в избранное

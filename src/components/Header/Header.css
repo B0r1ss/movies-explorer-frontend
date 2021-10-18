@@ -10,6 +10,8 @@
 
 .header__logo {
   margin: auto auto auto 0;
+  opacity: 1;
+  transition: opacity 0.3s;
 }
 
 @media(max-width: 992px) {

@@ -16,7 +16,7 @@ export default function Login() {
 
   return (
     <section className="login ">
-      <img src={logo} alt="Logo" className="login__image " />
+      <Link to="/" className="login__image"><img src={logo} alt="Logo" /></Link>
       <h2 className="login__title auth__title">Рады видеть!</h2>
       <form className="login__form auth__form" onSubmit={handleLogin}>
         <fieldset className="login__fields auth__fields">
@@ -24,6 +24,7 @@ export default function Login() {
           <input
             type="email"
             name="email"
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
             className="login__input auth__input"
             value={values.email || ""}
             onChange={handleChange}

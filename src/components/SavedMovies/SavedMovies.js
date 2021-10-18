@@ -10,13 +10,27 @@ function SavedMovies(props) {
   const moviesContext = React.useContext(MoviesContext)
   const appContext = React.useContext(AppContext);
 
+  const [movies, setMovies] = React.useState([])
+
+  React.useEffect(()=> {
+    setMovies(moviesContext.savedMovies)
+    if (appContext.isShortMoviesChecked) {
+      setMovies(appContext.shortMoviesSearch(movies))
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [appContext.isShortMoviesChecked, moviesContext.savedMovies])
+
+  React.useEffect(()=> {
+    setMovies(moviesContext.searchedSavedMovies)
+  }, [moviesContext.searchedSavedMovies])
+
     return (
         <>
             <Header loggedIn={props.loggedIn} main={false}/>
-            <SearchForm/>
+            <SearchForm saved={true}/>
             <MoviesCardList 
               saved={true}
-              movies={moviesContext.savedMovies}
+              movies={movies}
               isSearching={appContext.inProgress}
               isMoviesErrorActive={appContext.isMoviesErrorActive}
               notFound={appContext.notFoundErr}
